@@ -23,6 +23,8 @@ print("Intercept:", model.intercept_)
 
 print("Prediction for a house with 3000 sqft, 3 bedrooms, and 10 years old:", predict[0])
 
+print("R-squared:", model.score(X, y))
+
 import pickle
 
 with open("model.pkl", "wb") as f:
