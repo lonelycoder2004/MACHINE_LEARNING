@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 import math
+from sklearn.model_selection import train_test_split
 
 df= pd.read_csv('house.csv')
 
@@ -11,21 +12,30 @@ df['bedrooms'].fillna(median_bedroom, inplace=True)
 
 model = LinearRegression()
 
-X = df[['area', 'bedrooms', 'age']]
-y = df['price']
+X= df[['area','bedrooms','age']]
+y=df['price']
 
-model.fit(X, y)
+#split
+x_train,x_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=20)
 
-predict = model.predict([[3000, 3, 10]])  # Example prediction for a house with 3000 sqft, 3 bedrooms, and 10 years old
+#train the model
+model.fit(x_train,y_train) 
 
-print("Coefficients:", model.coef_)
-print("Intercept:", model.intercept_)
+#test the model
+predict = model.predict(x_test) 
 
-print("Prediction for a house with 3000 sqft, 3 bedrooms, and 10 years old:", predict[0])
+print(predict)
 
-print("R-squared:", model.score(X, y))
+print(y_test.values)
+
+print(model.score(x_test, y_test))
+
+
 
 import pickle
+from sklearn.metrics import r2_score
 
 with open("model.pkl", "wb") as f:
     pickle.dump(model, f)
+
+
