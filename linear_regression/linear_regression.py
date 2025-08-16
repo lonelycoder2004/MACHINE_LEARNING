@@ -12,13 +12,6 @@ y = df['price']   # Target variable
 model = LinearRegression()
 model.fit(X, y)
 
-# Make a prediction
-predicted_price = model.predict([[3300]])
-print(f"Predicted price for area 3300: {predicted_price[0]}")
-
-# Print model parameters
-print(f"Coefficient: {model.coef_[0]}")
-
 # Plotting
 import matplotlib.pyplot as plt
 
@@ -33,3 +26,22 @@ plt.ylabel('Price')
 plt.title('Linear Regression: Area vs Price')
 plt.legend()
 plt.show()
+
+# Make a prediction
+predicted_price = model.predict([[3300]])
+print(f"Predicted price for area 3300: {predicted_price[0]}")
+
+# Print model parameters
+print(f"Coefficient: {model.coef_[0]}")
+
+#give many areas
+d=pd.read_csv('areas.csv')
+
+#predict many
+predict_many = model.predict(d)
+
+#add predictions
+d['prices'] = predict_many
+
+#new file
+d.to_csv('predicted_prices.csv', index=False)
